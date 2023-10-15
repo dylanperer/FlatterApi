@@ -2,6 +2,7 @@ using Application.Authentication.Commands;
 using Application.Authentication.Queries;
 using Contracts.Authentication.Mappers;
 using Contracts.Authentication.Requests;
+using Contracts.Authentication.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Extensions;
@@ -33,7 +34,8 @@ public class AuthenticationController : ControllerBase
         
         return result.Resolve(AuthenticationResponseMapper.Map);
     }
-
+    [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpPost(nameof(SignIn))]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
     {
