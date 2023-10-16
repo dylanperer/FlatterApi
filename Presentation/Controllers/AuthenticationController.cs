@@ -65,4 +65,5 @@ public class AuthenticationController : ControllerBase
 
         return result.Resolve(AuthenticationResponseMapper.Map);
     }
+    
 }
