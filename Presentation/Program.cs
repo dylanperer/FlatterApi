@@ -28,6 +28,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
+    app.Urls.Add("http://170.64.170.214:5000");
+    // app.Urls.Add("localhost:5000");
     if (app.Environment.IsDevelopment())
     {
         app.UseSwagger();
