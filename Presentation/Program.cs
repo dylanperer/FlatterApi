@@ -20,7 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
         options.AddPolicy(devCorsPolicy, builder => {
             //builder.WithOrigins("http://localhost:800").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-            builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "http://192.168.18.39:3000");
+            // builder.SetIsOriginAllowed(origin => new Uri(origin).Host == "http://192.168.18.39:3000");
             builder.SetIsOriginAllowed(origin => true);
         });
     });
