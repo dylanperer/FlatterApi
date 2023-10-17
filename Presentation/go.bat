@@ -4,7 +4,7 @@ git reset --hard origin/master
 
 git pull
 
-dotnet restore ../Domain/Domain.csproj
+dotnet restore
 
 dotnet publish -o /var/www/app1
 
