@@ -1,6 +1,7 @@
 using Application.Profile.Commands;
 using Contracts.Profile.Mappers;
 using Contracts.Profile.Requests;
+using Contracts.Profile.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -21,6 +22,8 @@ public class ProfileController : ControllerBase
         _mediator = mediator;
     }
 
+    [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
     {

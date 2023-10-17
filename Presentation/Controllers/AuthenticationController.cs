@@ -21,6 +21,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(SignUp))]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
     {
@@ -35,8 +36,9 @@ public class AuthenticationController : ControllerBase
         
         return result.Resolve(AuthenticationResponseMapper.Map);
     }
+    
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(SignIn))]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
     {
@@ -53,7 +55,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [HttpGet(nameof(GetRefreshToken))]
     public async Task<IActionResult> GetRefreshToken([FromBody] RefreshTokenRequest request)
     {
