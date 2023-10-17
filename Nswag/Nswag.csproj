@@ -18,6 +18,10 @@
     <ItemGroup>
       <Folder Include="src" />
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Presentation\Presentation.csproj" />
+    </ItemGroup>
     
     <Target Name="NSwag" AfterTargets="Build">
         <Exec Command="$(NSwagExe_Net70) run nswag.json /variables:Configuration=$(Configuration)" />

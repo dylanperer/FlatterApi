@@ -6,9 +6,11 @@ namespace Presentation.Controllers;
 [Route("[controller]")]
 public class UtilsController : ControllerBase
 {
-    [HttpGet(nameof(Ping))]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [HttpPost(nameof(Ping))]
     public IActionResult Ping()
     {
-        return Ok("Ok");
+        return Ok("WTTTTTF");
     }
 }

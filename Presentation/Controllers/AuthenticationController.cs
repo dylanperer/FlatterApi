@@ -20,6 +20,7 @@ public class AuthenticationController : ControllerBase
         _mediator = mediator;
     }
 
+    [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
     [HttpPost(nameof(SignUp))]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
     {
@@ -43,14 +44,16 @@ public class AuthenticationController : ControllerBase
         {
             return BadRequest();
         }
-
+    
         var query = new SignInQuery(request.Email, request.Password);
         
         var result = await _mediator.Send(query);
-
+    
         return result.Resolve(AuthenticationResponseMapper.Map);
     }
     
+    [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
     [HttpGet(nameof(GetRefreshToken))]
     public async Task<IActionResult> GetRefreshToken([FromBody] RefreshTokenRequest request)
     {
@@ -65,5 +68,4 @@ public class AuthenticationController : ControllerBase
 
         return result.Resolve(AuthenticationResponseMapper.Map);
     }
-    
 }

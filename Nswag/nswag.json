@@ -5,7 +5,8 @@
     "webApiToOpenApi": {
       "controllerNames": [
         "Presentation.Controllers.AuthenticationController",
-        "Presentation.Controllers.ProfileController"
+        "Presentation.Controllers.ProfileController",
+        "Presentation.Controllers.UtilsController"
       ],
       "isAspNetCore": true,
       "resolveJsonOptions": false,
@@ -56,9 +57,7 @@
         "../Presentation/bin/Debug/net7.0/Presentation.dll"
       ],
       "assemblyConfig": null,
-      "referencePaths": [
-        "../Presentation/bin/Release/net7.0/publish"
-      ],
+      "referencePaths": [],
       "useNuGetCache": false
     }
   },
@@ -123,7 +122,7 @@
       "enumNameGeneratorType": null,
       "serviceHost": null,
       "serviceSchemes": null,
-      "output": "./src/FlatterClient.ts",
+      "output": "src/FlatterClient.ts",
       "newLineBehavior": "Auto"
     }
   }
