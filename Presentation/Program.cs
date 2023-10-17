@@ -28,7 +28,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    app.Urls.Add("http://170.64.170.214:5000");
+    app.Urls.Add("http://localhost:6969");
     // app.Urls.Add("localhost:5000");
     if (app.Environment.IsDevelopment())
     {
@@ -38,18 +38,12 @@ var app = builder.Build();
 
   
     
-    app.UseHttpsRedirection();
-
+    // app.UseHttpsRedirection();
+    
     app.UseCors(devCorsPolicy);
 
     app.UseAuthentication();
     app.UseAuthorization();
-    app.Use((ctx, next) =>
-    {
-        ctx.Response.Headers["Access-Control-Allow-Origin"] = "http://192.168.18.39:3000";
-        return next();
-    });
-
     app.MapControllers();
     app.Run();
 }
