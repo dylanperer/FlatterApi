@@ -6,13 +6,10 @@ namespace Presentation.Controllers;
 [Route("[controller]")]
 public class UtilsController : ControllerBase
 {
-
-    
-    
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     [HttpGet(nameof(Ping))]
-    public async Task<IActionResult> Ping()
+    public IActionResult Ping()
     {
-        return Ok();
+        return new OkObjectResult(new { Server = "Ok" });
     }
 }
