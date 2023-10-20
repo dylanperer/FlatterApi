@@ -1,5 +1,6 @@
 using Application.Authentication.Commands;
 using Application.Authentication.Queries;
+using Contracts;
 using Contracts.Authentication.Mappers;
 using Contracts.Authentication.Requests;
 using Contracts.Authentication.Responses;
@@ -21,7 +22,7 @@ public class AuthenticationController : ControllerBase
     }
 
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(BadRequestResponse), StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(SignUp))]
     public async Task<IActionResult> SignUp([FromBody] SignUpRequest request)
     {
@@ -38,7 +39,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(BadRequestResponse), StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(SignIn))]
     public async Task<IActionResult> SignIn([FromBody] SignInRequest request)
     {
@@ -55,7 +56,7 @@ public class AuthenticationController : ControllerBase
     }
     
     [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(BadRequestResponse), StatusCodes.Status400BadRequest)]
     [HttpGet(nameof(GetRefreshToken))]
     public async Task<IActionResult> GetRefreshToken([FromBody] RefreshTokenRequest request)
     {

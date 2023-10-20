@@ -18,7 +18,7 @@ public static class ControllerExtensions
         {
             if (exception is ValidationException validationException)
             {
-                return new BadRequestObjectResult(validationException);
+                return new OkObjectResult(validationException);
             }
 
             return new StatusCodeResult(500);
