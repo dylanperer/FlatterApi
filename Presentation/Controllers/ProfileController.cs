@@ -1,4 +1,6 @@
 using Application.Profile.Commands;
+using Application.Profile.Queries;
+using Contracts;
 using Contracts.Profile.Mappers;
 using Contracts.Profile.Requests;
 using Contracts.Profile.Responses;
@@ -10,7 +12,7 @@ using Presentation.Controllers.Extensions;
 
 namespace Presentation.Controllers;
 
-[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+// [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
 [ApiController]
 [Route("[controller]")]
 public class ProfileController : ControllerBase
@@ -23,7 +25,19 @@ public class ProfileController : ControllerBase
     }
 
     [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    [HttpGet(nameof(GetById))]
+    public async Task<IActionResult> GetById([FromRoute] int userId)
+    {
+        var query = new GetProfileByIdQuery(userId);
+        
+        var result = await _mediator.Send(query);
+
+        return result.Resolve(ProfileResponseMapper.Map);
+    }
+
+    [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(BadRequestResponse),StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
     {

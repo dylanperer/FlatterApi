@@ -87,7 +87,7 @@ public struct CreateProfileCommand : IRequest<Result<ProfileDto>>
             }
             catch 
             {
-                return new ValidationException("lol").ToResult<ProfileDto>();
+                return new ValidationException(ExceptionsConstants.ProfileCreationFailed).ToResult<ProfileDto>();
             }
 
             return new ProfileResultMapper().Map(profile);

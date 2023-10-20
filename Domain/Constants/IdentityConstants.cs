@@ -1,4 +1,4 @@
-﻿namespace PrototypeBackend.Identity;
+﻿namespace PrototypeBackend.Constants;
 
 public static class IdentityConstants
 {

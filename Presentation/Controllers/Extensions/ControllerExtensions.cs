@@ -18,7 +18,12 @@ public static class ControllerExtensions
         {
             if (exception is ValidationException validationException)
             {
-                return new OkObjectResult(validationException);
+                return new BadRequestObjectResult(validationException);
+            }
+
+            if (exception is KeyNotFoundException)
+            {
+                return new NotFoundResult();
             }
 
             return new StatusCodeResult(500);

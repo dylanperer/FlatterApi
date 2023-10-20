@@ -8,3 +8,4 @@ public partial class ProfileResultMapper
 {
     public partial ProfileDto Map(PrototypeBackend.Entities.Profile result);
 }
+
