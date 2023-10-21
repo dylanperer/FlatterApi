@@ -7,6 +7,7 @@ using Contracts.Profile.Responses;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Controllers.Extensions;
 
@@ -36,7 +37,7 @@ public class ProfileController : ControllerBase
         return result.Resolve(ProfileResponseMapper.Map);
     }
 
-    [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(Ok), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(BadRequestResponse),StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
@@ -61,8 +62,7 @@ public class ProfileController : ControllerBase
             request.PreferredMinimumAge,
             request.PreferredMaximumAge);
 
-        var result = await _mediator.Send(command);
-
-        return result.Resolve(ProfileResponseMapper.Map);
+        await _mediator.Send(command);
+        return Ok();
     }
 }

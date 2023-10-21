@@ -10,7 +10,7 @@ namespace Application.Profile.Commands;
 
 using PrototypeBackend.Entities;
 
-public struct CreateProfileCommand : IRequest<Result<ProfileDto>>
+public struct CreateProfileCommand : IRequest<Result<bool>>
 {
     private readonly string _displayName;
     private readonly string _description;
@@ -48,7 +48,7 @@ public struct CreateProfileCommand : IRequest<Result<ProfileDto>>
         _preferredMaximumAge = preferredMaximumAge;
     }
 
-    public class CreateProfileCommandHandler : IRequestHandler<CreateProfileCommand, Result<ProfileDto>>
+    public class CreateProfileCommandHandler : IRequestHandler<CreateProfileCommand, Result<bool>>
     {
         private readonly PostgresDbContext _postgresDbContext;
         private readonly IUserProvider _userProvider;
@@ -59,7 +59,7 @@ public struct CreateProfileCommand : IRequest<Result<ProfileDto>>
             _userProvider = userProvider;
         }
 
-        public async Task<Result<ProfileDto>> Handle(CreateProfileCommand request,
+        public async Task<Result<bool>> Handle(CreateProfileCommand request,
             CancellationToken cancellationToken)
         {
             var profile = _postgresDbContext.Profiles.Add(new Profile
@@ -77,20 +77,20 @@ public struct CreateProfileCommand : IRequest<Result<ProfileDto>>
                 PreferredMinimumAge = request._preferredMinimumAge ?? 18,
                 PreferredMaximumAge = request._preferredMaximumAge ?? 99,
                 MaximumAcceptedDistance = request._maximumAcceptedDistance ?? 99,
-                Occupation = request._occupation,
+                OccupationId = request._occupation.OccupationId,
                 Interests = request._interests
             }).Entity;
 
             try
             {
-                await _postgresDbContext.SaveChangesAsync(cancellationToken);
+               await _postgresDbContext.SaveChangesAsync(cancellationToken);
             }
-            catch 
+            catch(Exception e)
             {
-                return new ValidationException(ExceptionsConstants.ProfileCreationFailed).ToResult<ProfileDto>();
+                return new ValidationException(ExceptionsConstants.ProfileCreationFailed).ToResult<bool>();
             }
 
-            return new ProfileResultMapper().Map(profile);
+            return true;
         }
     }
 }

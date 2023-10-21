@@ -12,7 +12,8 @@ public struct ProfileDto
     public byte Age;
     public string City;
     public IEnumerable<InterestDto> Interests { get; set; } 
-    public OccupationDto Occupation { get; set; } 
+    public int OccupationId { get; set; } 
+    public OccupationDto? Occupation { get; set; } 
     public int MaximumAcceptedDistance;
     public Gender PreferredGender;
     public int PreferredMinimumAge;
