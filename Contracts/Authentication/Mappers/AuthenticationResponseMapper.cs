@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Authentication.Dto;
 using Contracts.Authentication.Responses;
 using Riok.Mapperly.Abstractions;
 

@@ -1,4 +1,4 @@
-﻿namespace Application.Dtos;
+﻿namespace Application.Authentication.Dto;
 
 public struct AuthenticationDto 
 {

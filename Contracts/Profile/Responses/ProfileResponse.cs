@@ -1,5 +1,4 @@
-﻿using Application.Dtos;
-using PrototypeBackend.Entities;
+﻿using PrototypeBackend.Entities;
 
 namespace Contracts.Profile.Responses;
 

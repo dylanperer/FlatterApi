@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Profile.Dto;
 using Contracts.Profile.Responses;
 using Riok.Mapperly.Abstractions;
 

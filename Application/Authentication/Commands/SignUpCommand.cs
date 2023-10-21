@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Application.Dtos;
+using Application.Authentication.Dto;
 using Application.External.Interfaces.Authentication;
 using LanguageExt.Common;
 using MediatR;

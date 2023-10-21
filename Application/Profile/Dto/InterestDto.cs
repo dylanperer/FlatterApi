@@ -1,4 +1,4 @@
-﻿namespace Application.Dtos;
+﻿namespace Application.Profile.Dto;
 
 public struct InterestDto
 {

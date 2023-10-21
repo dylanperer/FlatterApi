@@ -1,7 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Application.Dtos;
-using Application.External.Interfaces.Authentication;
+﻿using Application.External.Interfaces.Authentication;
 using Application.Mappers;
+using Application.Profile.Dto;
 using LanguageExt.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Profile.Dto;
 using Riok.Mapperly.Abstractions;
 
 namespace Application.Mappers;

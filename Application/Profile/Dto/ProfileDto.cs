@@ -1,6 +1,6 @@
 ﻿using PrototypeBackend.Entities;
 
-namespace Application.Dtos;
+namespace Application.Profile.Dto;
 
 public struct ProfileDto
 {
