@@ -13,22 +13,22 @@ public struct CreateProfileCommand : IRequest<Result<int>>
 {
     private readonly string _displayName;
     private readonly string _description;
-    private readonly GenderJson _gender;
+    private readonly Gender _gender;
     private readonly string _primaryImageUrl;
     private readonly IEnumerable<string> _imageUrls;
     private readonly byte _age;
-    private readonly GenderJson _preferredGender;
+    private readonly Gender _preferredGender;
     private readonly string _city;
-    private readonly IEnumerable<InterestJson> _interests;
-    private readonly OccupationJson _occupation;
+    private readonly IEnumerable<Interest> _interests;
+    private readonly Occupation _occupation;
     private readonly int? _maximumAcceptedDistance;
     private readonly int? _preferredMinimumAge;
     private readonly int? _preferredMaximumAge;
 
-    public CreateProfileCommand(string displayName, string description, GenderJson gender,
+    public CreateProfileCommand(string displayName, string description, Gender gender,
         string primaryImageUrl,
-        IEnumerable<string> imageUrls, byte age, GenderJson preferredGender, string city, IEnumerable<InterestJson> interests,
-        OccupationJson occupation,
+        IEnumerable<string> imageUrls, byte age, Gender preferredGender, string city, IEnumerable<Interest> interests,
+        Occupation occupation,
         int maximumAcceptedDistance,
         int preferredMinimumAge, int preferredMaximumAge)
     {
@@ -71,7 +71,7 @@ public struct CreateProfileCommand : IRequest<Result<int>>
                 ImageUrls = request._imageUrls,
                 Age = request._age,
                 City = request._city,
-                PrefferedGender = request._preferredGender,
+                PreferredGender = request._preferredGender,
                 PreferredMinimumAge = request._preferredMinimumAge ?? 18,
                 PreferredMaximumAge = request._preferredMaximumAge ?? 99,
                 MaximumAcceptedDistance = request._maximumAcceptedDistance ?? 99,

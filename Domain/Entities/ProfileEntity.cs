@@ -9,23 +9,23 @@ public sealed class ProfileEntity : BaseEntity
     [Key] public int ProfileId { get; set; }
 
     public string DisplayName { get; set; } = null!;
-    public string Description { get; set; }
+    public string Description { get; set; } = string.Empty;
     [Column(TypeName = "jsonb")]
-    public GenderJson Gender { get; set; }
+    public Gender Gender { get; set; }
     public string PrimaryImageUrl { get; set; } = null!;
     [Column(TypeName = "jsonb")]
     public IEnumerable<string> ImageUrls = new List<string>();
     public byte Age { get; set; }
     [Column(TypeName = "jsonb")]
-    public GenderJson PrefferedGender { get; set; }
+    public Gender PreferredGender { get; set; }
     public string City { get; set; } = null!;
     public int MaximumAcceptedDistance { get; set; }
     public int PreferredMinimumAge  { get; set; }
     public int PreferredMaximumAge  { get; set; }
     [Column(TypeName = "jsonb")]
-    public IEnumerable<InterestJson> Interests { get; set; } = new List<InterestJson>();
+    public IEnumerable<Interest> Interests { get; set; } = new List<Interest>();
     [Column(TypeName = "jsonb")]
-    public OccupationJson? Occupation { get; set; }
+    public Occupation? Occupation { get; set; }
     public UserEntity? User { get; set; }
 }
 

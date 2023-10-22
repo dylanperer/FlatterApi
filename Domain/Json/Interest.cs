@@ -2,10 +2,10 @@
 
 namespace PrototypeBackend.Json;
 
-public struct OccupationJson
+public struct Interest
 {
     [Range(1, int.MaxValue)]
-    public int OccupationId { get; set; }
+    public int InterestId { get; set; }
 
     public string Value { get; set; }
 }

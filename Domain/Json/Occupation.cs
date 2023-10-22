@@ -2,10 +2,10 @@
 
 namespace PrototypeBackend.Json;
 
-public struct GenderJson
+public struct Occupation
 {
     [Range(1, int.MaxValue)]
-    public int GenderIdentityId { get; set; }
+    public int OccupationId { get; set; }
 
-    public string Value  { get; set; }
+    public string Value { get; set; }
 }

@@ -131,17 +131,17 @@ namespace Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<GenderJson>("Gender")
+                    b.Property<Gender>("Gender")
                         .HasColumnType("jsonb");
 
-                    b.Property<IEnumerable<InterestJson>>("Interests")
+                    b.Property<IEnumerable<Interest>>("Interests")
                         .IsRequired()
                         .HasColumnType("jsonb");
 
                     b.Property<int>("MaximumAcceptedDistance")
                         .HasColumnType("integer");
 
-                    b.Property<OccupationJson?>("Occupation")
+                    b.Property<Occupation?>("Occupation")
                         .HasColumnType("jsonb");
 
                     b.Property<int>("PreferredMaximumAge")
@@ -150,7 +150,7 @@ namespace Persistence.Migrations
                     b.Property<int>("PreferredMinimumAge")
                         .HasColumnType("integer");
 
-                    b.Property<GenderJson>("PrefferedGender")
+                    b.Property<Gender>("PrefferedGender")
                         .HasColumnType("jsonb");
 
                     b.Property<string>("PrimaryImageUrl")
