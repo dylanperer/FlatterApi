@@ -7,5 +7,5 @@ namespace Contracts.Profile.Mappers;
 [Mapper]
 public static partial class OccupationResponseMapper
 {
-    public static partial OccupationResponse Map(Occupation occupation);
+    public static partial OccupationResponse Map(OccupationEntity occupationEntity);
 }

@@ -31,38 +31,33 @@ public class ProfileController : ControllerBase
     public async Task<IActionResult> GetById([FromRoute] int userId)
     {
         var query = new GetProfileByIdQuery(userId);
-        
+
         var result = await _mediator.Send(query);
 
         return result.Resolve(ProfileResponseMapper.Map);
     }
 
     [ProducesResponseType(typeof(Ok), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(BadRequestResponse),StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(BadRequestResponse), StatusCodes.Status400BadRequest)]
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest();
-        }
-
         var command = new CreateProfileCommand(
-            request.DisplayName, 
+            request.DisplayName,
             request.Description,
             request.Gender,
             request.PrimaryImageUrl,
             request.ImageUrls,
             request.Age,
+            request.PreferredGender,
             request.City,
             request.Interests,
             request.Occupation,
             request.MaximumAcceptedDistance,
-            request.PreferredGender, 
             request.PreferredMinimumAge,
             request.PreferredMaximumAge);
 
-        await _mediator.Send(command);
-        return Ok();
+        var result = await _mediator.Send(command);
+        return result.Resolve((c)=>Ok(c));
     }
 }

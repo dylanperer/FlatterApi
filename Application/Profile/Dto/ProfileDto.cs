@@ -6,7 +6,8 @@ public struct ProfileDto
 {
     public string DisplayName;
     public string? Description;
-    public Gender Gender;
+    public int GenderIdentityId;
+    public GenderEntity? GenderIdentity { get; set; }
     public string PrimaryImageUrl;
     public IEnumerable<string> ImageUrls;
     public byte Age;
@@ -15,7 +16,8 @@ public struct ProfileDto
     public int OccupationId { get; set; } 
     public OccupationDto? Occupation { get; set; } 
     public int MaximumAcceptedDistance;
-    public Gender PreferredGender;
+    public int? PreferredGenderIdentityId;
+    public GenderEntity? PreferredGenderIdentity;
     public int PreferredMinimumAge;
     public int PreferredMaximumAge;
 }

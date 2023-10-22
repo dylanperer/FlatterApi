@@ -47,7 +47,7 @@ public struct SignUpCommand : IRequest<Result<AuthenticationDto>>
                     .ToResult<AuthenticationDto>();
             }
 
-            var user = _postgresDbContext.Add(new User()
+            var user = _postgresDbContext.Add(new UserEntity()
             {
                 Email = request._email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(request._password)

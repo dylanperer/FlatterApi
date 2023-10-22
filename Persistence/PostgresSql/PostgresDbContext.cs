@@ -6,12 +6,11 @@ namespace Persistence.PostgresSql;
 
 public class PostgresDbContext : DbContext
 {
-    public virtual DbSet<User> Users { get; set; }
-    public virtual DbSet<Profile> Profiles { get; set; }
-    public virtual DbSet<GenderIdentity> GenderIdentities { get; set; }
-    public virtual DbSet<Occupation> Occupations { get; set; }
-    public virtual DbSet<InterestCollection> InterestCollections { get; set; }
-    public virtual DbSet<Interest> Interests { get; set; }
+    public virtual DbSet<UserEntity> Users { get; set; }
+    public virtual DbSet<ProfileEntity> Profiles { get; set; }
+    public virtual DbSet<GenderEntity> Genders { get; set; }
+    public virtual DbSet<OccupationEntity> Occupations { get; set; }
+    public virtual DbSet<InterestEntity> Interests { get; set; }
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public PostgresDbContext()
@@ -26,38 +25,38 @@ public class PostgresDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<User>(c =>
+        modelBuilder.Entity<UserEntity>(c =>
         {
             c.HasOne(user => user.Profile).WithOne(profile => profile.User)
-                .HasForeignKey<Profile>(u => u.ProfileId);
+                .HasForeignKey<ProfileEntity>(u => u.ProfileId);
         });
 
-        modelBuilder.Entity<Profile>(c =>
+        modelBuilder.Entity<ProfileEntity>(c =>
         {
-            c.HasOne(p => p.GenderIdentity)
-                .WithMany()
-                .HasForeignKey(p => p.GenderIdentityId)
-                .IsRequired();
+            // c.HasOne(p => p.GenderIdentity)
+            //     .WithMany()
+            //     .HasForeignKey(p => p.GenderIdentityId)
+            //     .IsRequired();
+            //
+            // c.HasOne(p => p.PreferredGenderIdentity)
+            //     .WithMany()
+            //     .HasForeignKey(p => p.PreferredGenderIdentityId)
+            //     .IsRequired();
 
-            c.HasOne(p => p.PreferredGenderIdentity)
-                .WithMany()
-                .HasForeignKey(p => p.PreferredGenderIdentityId)
-                .IsRequired();
-
-            c.HasOne(p => p.Occupation)
-                .WithMany()
-                .HasForeignKey(p => p.OccupationId)
-                .IsRequired();
+            // c.HasOne(p => p.Occupation)
+            //     .WithMany()
+            //     .HasForeignKey(p => p.OccupationId)
+            //     .IsRequired();
 
             // c.HasOne(p => p.InterestCollection)
             //     .WithMany()
             //     .HasForeignKey(p => p.InterestCollectionId);
         });
-
-        modelBuilder.Entity<InterestCollection>(c =>
-        {
-            c.HasOne(u => u.Interests).WithMany().HasForeignKey(u => u.InterestCollectionId);
-        });
+        //
+        // modelBuilder.Entity<InterestCollection>(c =>
+        // {
+        //     c.HasOne(u => u.Interests).WithMany().HasForeignKey(u => u.InterestCollectionId);
+        // });
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)

@@ -1,6 +1,6 @@
 ﻿using Application.External.Interfaces.Authentication;
-using Application.Mappers;
 using Application.Profile.Dto;
+using Application.Profile.Mappers;
 using LanguageExt.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +38,7 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
                 return new KeyNotFoundException().ToResult<ProfileDto>();
             }
             
-            return new ProfileResultMapper().Map(profile);
+            return ProfileResultMapper.Map(profile);
         }
     }
 }

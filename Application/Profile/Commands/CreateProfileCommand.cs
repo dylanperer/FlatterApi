@@ -1,36 +1,35 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Application.External.Interfaces.Authentication;
-using Application.Mappers;
-using Application.Profile.Dto;
 using LanguageExt.Common;
 using MediatR;
 using Persistence.PostgresSql;
+using PrototypeBackend.Json;
 
 namespace Application.Profile.Commands;
 
 using PrototypeBackend.Entities;
 
-public struct CreateProfileCommand : IRequest<Result<bool>>
+public struct CreateProfileCommand : IRequest<Result<int>>
 {
     private readonly string _displayName;
     private readonly string _description;
-    private readonly Gender _gender;
+    private readonly GenderJson _gender;
     private readonly string _primaryImageUrl;
     private readonly IEnumerable<string> _imageUrls;
     private readonly byte _age;
-
+    private readonly GenderJson _preferredGender;
     private readonly string _city;
-
-    private readonly IEnumerable<Interest> _interests;
-    private readonly  Occupation _occupation;
+    private readonly IEnumerable<InterestJson> _interests;
+    private readonly OccupationJson _occupation;
     private readonly int? _maximumAcceptedDistance;
-    private readonly Gender? _preferredGender;
     private readonly int? _preferredMinimumAge;
     private readonly int? _preferredMaximumAge;
 
-    public CreateProfileCommand(string displayName, string description, Gender gender,
+    public CreateProfileCommand(string displayName, string description, GenderJson gender,
         string primaryImageUrl,
-        IEnumerable<string> imageUrls, byte age, string city,  IEnumerable<Interest> interests, Occupation occupation, int maximumAcceptedDistance, Gender preferredGender,
+        IEnumerable<string> imageUrls, byte age, GenderJson preferredGender, string city, IEnumerable<InterestJson> interests,
+        OccupationJson occupation,
+        int maximumAcceptedDistance,
         int preferredMinimumAge, int preferredMaximumAge)
     {
         _displayName = displayName;
@@ -48,7 +47,7 @@ public struct CreateProfileCommand : IRequest<Result<bool>>
         _preferredMaximumAge = preferredMaximumAge;
     }
 
-    public class CreateProfileCommandHandler : IRequestHandler<CreateProfileCommand, Result<bool>>
+    public class CreateProfileCommandHandler : IRequestHandler<CreateProfileCommand, Result<int>>
     {
         private readonly PostgresDbContext _postgresDbContext;
         private readonly IUserProvider _userProvider;
@@ -59,38 +58,35 @@ public struct CreateProfileCommand : IRequest<Result<bool>>
             _userProvider = userProvider;
         }
 
-        public async Task<Result<bool>> Handle(CreateProfileCommand request,
+        public async Task<Result<int>> Handle(CreateProfileCommand request,
             CancellationToken cancellationToken)
         {
-            var profile = _postgresDbContext.Profiles.Add(new Profile
+            _postgresDbContext.Profiles.Add(new ProfileEntity
             {
                 ProfileId = _userProvider.UserId,
                 DisplayName = request._displayName,
+                Gender = request._gender,
                 Description = request._description,
                 PrimaryImageUrl = request._primaryImageUrl,
                 ImageUrls = request._imageUrls,
-                Gender = request._gender,
                 Age = request._age,
                 City = request._city,
-                //@todo create auto pref gender assigner
-                PreferredGender = request._preferredGender ?? Gender.BiSexual,
+                PrefferedGender = request._preferredGender,
                 PreferredMinimumAge = request._preferredMinimumAge ?? 18,
                 PreferredMaximumAge = request._preferredMaximumAge ?? 99,
                 MaximumAcceptedDistance = request._maximumAcceptedDistance ?? 99,
-                OccupationId = request._occupation.OccupationId,
+                Occupation = request._occupation,
                 Interests = request._interests
-            }).Entity;
+            });
 
             try
             {
-               await _postgresDbContext.SaveChangesAsync(cancellationToken);
+                return await _postgresDbContext.SaveChangesAsync(cancellationToken);
             }
-            catch(Exception e)
+            catch 
             {
-                return new ValidationException(ExceptionsConstants.ProfileCreationFailed).ToResult<bool>();
+                return new ValidationException(ExceptionsConstants.ProfileCreationFailed).ToResult<int>();
             }
-
-            return true;
         }
     }
 }
