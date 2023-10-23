@@ -48,4 +48,17 @@ public class ProfileController : ControllerBase
         
         return result.Resolve((c) => Ok(c));
     }
+    
+    [ProducesResponseType(typeof(IEnumerable<GenderIdentityResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    [HttpGet(nameof(GetGenderIdentities))]
+    public async Task<IActionResult> GetGenderIdentities()
+    {
+        var query = new GetGenderIdentitiesQuery();
+
+        var result = await _mediator.Send(query);
+
+        return result.Resolve(GenderIdentityRequestResponseMapper.Map);
+    }
+    
 }
