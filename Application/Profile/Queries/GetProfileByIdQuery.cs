@@ -21,7 +21,7 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
     {
         private readonly PostgresDbContext _postgresDbContext;
 
-        public GetProfileByIdQueryHandler(PostgresDbContext postgresDbContext, IUserProvider userProvider)
+        public GetProfileByIdQueryHandler(PostgresDbContext postgresDbContext)
         {
             _postgresDbContext = postgresDbContext;
         }
@@ -33,7 +33,7 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
                 await _postgresDbContext.Profiles.FirstOrDefaultAsync(c => c.ProfileId == request._userId,
                     cancellationToken: cancellationToken);
 
-            return profile == null ? new KeyNotFoundException().ToResult<ProfileDto>() : ProfileResultMapper.Map(profile);
+            return profile == null ? new KeyNotFoundException().ToResult<ProfileDto>() : ProfileDtoMapper.Map(profile);
         }
     }
 }

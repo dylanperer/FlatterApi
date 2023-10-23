@@ -3,11 +3,10 @@ using Application.External.Interfaces.Authentication;
 using LanguageExt.Common;
 using MediatR;
 using Persistence.PostgresSql;
-using PrototypeBackend.Json;
-
 namespace Application.Profile.Commands;
 
 using PrototypeBackend.Entities;
+using PrototypeBackend.Json;
 
 public struct CreateProfileCommand : IRequest<Result<int>>
 {
@@ -20,7 +19,7 @@ public struct CreateProfileCommand : IRequest<Result<int>>
     private readonly Gender _preferredGender;
     private readonly string _city;
     private readonly IEnumerable<Interest> _interests;
-    private readonly Occupation _occupation;
+    private readonly Occupation? _occupation;
     private readonly int? _maximumAcceptedDistance;
     private readonly int? _preferredMinimumAge;
     private readonly int? _preferredMaximumAge;

@@ -159,7 +159,7 @@ export class ProfileClient {
     }
 
     getById(userId: number): Promise<ProfileResponse> {
-        let url_ = this.baseUrl + "/Profile/GetById";
+        let url_ = this.baseUrl + "/Profile/{userId}";
         if (userId === undefined || userId === null)
             throw new Error("The parameter 'userId' must be defined.");
         url_ = url_.replace("{userId}", encodeURIComponent("" + userId));
@@ -200,7 +200,7 @@ export class ProfileClient {
         return Promise.resolve<ProfileResponse>(null as any);
     }
 
-    create(request?: CreateProfileRequest | undefined): Promise<ProfileResponse> {
+    create(request?: CreateProfileRequest | undefined): Promise<Ok> {
         let url_ = this.baseUrl + "/Profile/Create";
         url_ = url_.replace(/[?&]$/, "");
 
@@ -220,13 +220,13 @@ export class ProfileClient {
         });
     }
 
-    protected processCreate(response: Response): Promise<ProfileResponse> {
+    protected processCreate(response: Response): Promise<Ok> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as ProfileResponse;
+            result200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver) as Ok;
             return result200;
             });
         } else if (status === 400) {
@@ -240,7 +240,7 @@ export class ProfileClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<ProfileResponse>(null as any);
+        return Promise.resolve<Ok>(null as any);
     }
 }
 
@@ -338,23 +338,22 @@ export interface RefreshTokenRequest {
 export interface ProfileResponse {
     displayName: string;
     description: string;
-    gender: Gender;
+    gender: GenderDto;
     primaryImageUrl: string;
     imageUrls: string[];
     age: number;
+    preferredGender: GenderDto;
     city: string;
     interests: InterestResponse[];
     occupation: OccupationResponse;
     maximumAcceptedDistance: number;
-    preferredGender: Gender;
     preferredMinimumAge: number;
     preferredMaximumAge: number;
 }
 
-export enum Gender {
-    Female = 0,
-    Male = 1,
-    BiSexual = 2,
+export interface GenderDto {
+    genderIdentityId: number;
+    value: string;
 }
 
 export interface InterestResponse {
@@ -374,42 +373,37 @@ export interface ErrorResponse {
     traceId: string;
 }
 
+export interface Ok {
+    statusCode: number;
+}
+
 export interface CreateProfileRequest {
-    userId: number;
     displayName: string;
     description: string;
     gender: Gender;
     primaryImageUrl: string;
     imageUrls: string[];
     age: number;
+    preferredGender: Gender;
     city: string;
     interests: Interest[];
     occupation: Occupation;
     maximumAcceptedDistance: number;
-    preferredGender: Gender;
     preferredMinimumAge: number;
     preferredMaximumAge: number;
 }
 
-export interface BaseEntity {
-    status: Status;
-    created: Date;
-    updated: Date;
+export interface Gender {
+    genderIdentityId: number;
+    value: string;
 }
 
-export interface Interest extends BaseEntity {
+export interface Interest {
     interestId: number;
     value: string;
 }
 
-export enum Status {
-    Active = 1,
-    Disabled = 2,
-    Deleted = 3,
-    Revoked = 4,
-}
-
-export interface Occupation extends BaseEntity {
+export interface Occupation {
     occupationId: number;
     value: string;
 }
