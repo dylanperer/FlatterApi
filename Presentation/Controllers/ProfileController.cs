@@ -27,7 +27,7 @@ public class ProfileController : ControllerBase
 
     [ProducesResponseType(typeof(ProfileResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
-    [HttpGet(nameof(GetById))]
+    [HttpGet("{userId:int}",Name = nameof(GetById))]
     public async Task<IActionResult> GetById([FromRoute] int userId)
     {
         var query = new GetProfileByIdQuery(userId);

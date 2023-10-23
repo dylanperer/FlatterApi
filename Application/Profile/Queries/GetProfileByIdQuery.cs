@@ -33,12 +33,7 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
                 await _postgresDbContext.Profiles.FirstOrDefaultAsync(c => c.ProfileId == request._userId,
                     cancellationToken: cancellationToken);
 
-            if (profile == null)
-            {
-                return new KeyNotFoundException().ToResult<ProfileDto>();
-            }
-            
-            return ProfileResultMapper.Map(profile);
+            return profile == null ? new KeyNotFoundException().ToResult<ProfileDto>() : ProfileResultMapper.Map(profile);
         }
     }
 }
