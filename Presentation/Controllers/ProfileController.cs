@@ -60,4 +60,16 @@ public class ProfileController : ControllerBase
         var result = await _mediator.Send(command);
         return result.Resolve((c)=>Ok(c));
     }
+    
+    [ProducesResponseType(typeof(IEnumerable<GenderIdentitiesResponse>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status404NotFound)]
+    [HttpGet( nameof(GetGenderIdentities))]
+    public async Task<IActionResult> GetGenderIdentities([FromRoute] int userId)
+    {
+        var query = new GetGenderIdentitiesQuery();
+
+        var result = await _mediator.Send(query);
+
+        return result.Resolve(GenderIdentitiesResponseMapper.Map);
+    }
 }

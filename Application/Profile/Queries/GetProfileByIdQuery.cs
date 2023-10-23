@@ -5,6 +5,7 @@ using LanguageExt.Common;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence.PostgresSql;
+using PrototypeBackend.Entities;
 
 namespace Application.Profile.Queries;
 
@@ -30,8 +31,14 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
             CancellationToken cancellationToken)
         {
             var profile =
-                await _postgresDbContext.Profiles.FirstOrDefaultAsync(c => c.ProfileId == request._userId,
-                    cancellationToken: cancellationToken);
+                await _postgresDbContext.Profiles
+                    .Include(c => c.GenderIdentity)
+                    .Include(c=>c.PreferredGenderIdentity)
+                    .Include(c => c.Occupation)
+                    .Include(c => c.ProfileInterest)
+                    .ThenInclude(c=>c.Interest)
+                    .FirstOrDefaultAsync(c => c.ProfileId == request._userId,
+                        cancellationToken: cancellationToken);
 
             return profile == null ? new KeyNotFoundException().ToResult<ProfileDto>() : ProfileDtoMapper.Map(profile);
         }
