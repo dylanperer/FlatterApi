@@ -2,7 +2,7 @@
 
 namespace PrototypeBackend.Json;
 
-public struct GenderJson
+public struct GenderIdentityJson
 {
     [Range(1, int.MaxValue)]
     public int GenderIdentityId { get; set; }

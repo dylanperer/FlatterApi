@@ -38,7 +38,7 @@ public struct GetProfileByIdQuery : IRequest<Result<ProfileDto>>
                 return new KeyNotFoundException().ToResult<ProfileDto>();
             }
             
-            return ProfileResultMapper.Map(profile);
+            return ProfileDtoMapper.Map(profile);
         }
     }
 }

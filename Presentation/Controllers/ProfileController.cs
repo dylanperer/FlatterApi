@@ -34,7 +34,7 @@ public class ProfileController : ControllerBase
 
         var result = await _mediator.Send(query);
 
-        return result.Resolve(ProfileResponseMapper.Map);
+        return result.Resolve(ProfileRequestResponseMapper.Map);
     }
 
     [ProducesResponseType(typeof(Ok), StatusCodes.Status200OK)]
@@ -42,22 +42,10 @@ public class ProfileController : ControllerBase
     [HttpPost(nameof(Create))]
     public async Task<IActionResult> Create([FromBody] CreateProfileRequest request)
     {
-        var command = new CreateProfileCommand(
-            request.DisplayName,
-            request.Description,
-            request.Gender,
-            request.PrimaryImageUrl,
-            request.ImageUrls,
-            request.Age,
-            request.PreferredGender,
-            request.City,
-            request.Interests,
-            request.Occupation,
-            request.MaximumAcceptedDistance,
-            request.PreferredMinimumAge,
-            request.PreferredMaximumAge);
-
+        var command = new CreateProfileCommand(ProfileRequestResponseMapper.Map(request));
+        
         var result = await _mediator.Send(command);
-        return result.Resolve((c)=>Ok(c));
+        
+        return result.Resolve((c) => Ok(c));
     }
 }

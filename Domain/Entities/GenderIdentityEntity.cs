@@ -2,7 +2,7 @@
 
 namespace PrototypeBackend.Entities;
 
-public class GenderEntity: BaseEntity
+public class GenderIdentityEntity: BaseEntity
 {
     [Key]
     public int GenderIdentityId { get; set; }
