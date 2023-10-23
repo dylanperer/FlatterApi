@@ -16,7 +16,7 @@ public struct CreateProfileCommand : IRequest<Result<int>>
     private readonly byte _age;
     private readonly GenderIdentityEntity _preferredGenderIdentity;
     private readonly string _city;
-    private readonly IEnumerable<InterestEntity> _interests;
+    private readonly IEnumerable<ProfileInterestEntity> _interests;
     private readonly OccupationEntity? _occupation;
     private readonly int? _maximumAcceptedDistance;
     private readonly int? _preferredMinimumAge;
@@ -24,7 +24,7 @@ public struct CreateProfileCommand : IRequest<Result<int>>
 
     public CreateProfileCommand(string displayName, string description, GenderIdentityEntity genderIdentity,
         string primaryImageUrl,
-        IEnumerable<string> imageUrls, byte age, GenderIdentityEntity preferredGenderIdentity, string city, IEnumerable<InterestEntity> interests,
+        IEnumerable<string> imageUrls, byte age, GenderIdentityEntity preferredGenderIdentity, string city, IEnumerable<ProfileInterestEntity> interests,
         OccupationEntity occupation,
         int maximumAcceptedDistance,
         int preferredMinimumAge, int preferredMaximumAge)
@@ -58,6 +58,11 @@ public struct CreateProfileCommand : IRequest<Result<int>>
         public async Task<Result<int>> Handle(CreateProfileCommand request,
             CancellationToken cancellationToken)
         {
+            var x = request._interests.Map(c => new ProfileInterestEntity
+            {
+                InterestId = c.InterestId,
+            });
+            
             _postgresDbContext.Profiles.Add(new ProfileEntity
             {
                 ProfileId = _userProvider.UserId,
@@ -72,8 +77,8 @@ public struct CreateProfileCommand : IRequest<Result<int>>
                 PreferredMinimumAge = request._preferredMinimumAge ?? 18,
                 PreferredMaximumAge = request._preferredMaximumAge ?? 99,
                 MaximumAcceptedDistance = request._maximumAcceptedDistance ?? 99,
-                OccupationId = request._occupation.OccupationId,
-                // In = request._interests
+                OccupationId = request._occupation?.OccupationId,
+                ProfileInterest = x.ToList(),
             });
 
             try

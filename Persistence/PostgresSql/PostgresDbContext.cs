@@ -11,6 +11,7 @@ public class PostgresDbContext : DbContext
     public virtual DbSet<GenderIdentityEntity> Genders { get; set; }
     public virtual DbSet<OccupationEntity> Occupations { get; set; }
     public virtual DbSet<InterestEntity> Interests { get; set; }
+    public virtual DbSet<ProfileInterestEntity> ProfileInterests { get; set; }
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public PostgresDbContext()
@@ -47,16 +48,20 @@ public class PostgresDbContext : DbContext
                 .WithMany()
                 .HasForeignKey(p => p.OccupationId)
                 .IsRequired();
-
-            // c.HasOne(p => p.InterestCollection)
-            //     .WithMany()
-            //     .HasForeignKey(p => p.InterestCollectionId);
         });
-        //
-        // modelBuilder.Entity<InterestCollection>(c =>
-        // {
-        //     c.HasOne(u => u.Interests).WithMany().HasForeignKey(u => u.InterestCollectionId);
-        // });
+        
+        modelBuilder.Entity<ProfileInterestEntity>(c =>
+        {
+            c.HasOne(u => u.Interest)
+                .WithMany(u => u.ProfileInterest)
+                .HasForeignKey(u => u.InterestId);
+            
+            c.HasOne(u => u.Profile)
+                .WithMany(u => u.ProfileInterest)
+                .HasForeignKey(u => u.ProfileId);
+
+        });
+
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)

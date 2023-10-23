@@ -21,8 +21,7 @@ public sealed class ProfileEntity : BaseEntity
     public int MaximumAcceptedDistance { get; set; }
     public int PreferredMinimumAge  { get; set; }
     public int PreferredMaximumAge  { get; set; }
-    // public IEnumerable<Interest> Interests { get; set; } = new List<Interest>();
-    // [Column(TypeName = "jsonb")]
+    public ICollection<ProfileInterestEntity> ProfileInterest  { get; set; }
     public int? OccupationId { get; set; }
     public OccupationEntity? Occupation { get; set; }
     public UserEntity? User { get; set; }
