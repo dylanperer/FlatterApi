@@ -4,7 +4,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Persistence.PostgresSql;
 
-namespace Application.Gender.Queries;
+namespace Application.Profile.Commands;
 
 public struct GetGendersQuery : IRequest<Result<IEnumerable<GenderDto>>>
 {

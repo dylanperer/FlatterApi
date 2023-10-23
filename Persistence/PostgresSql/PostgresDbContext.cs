@@ -8,7 +8,7 @@ public class PostgresDbContext : DbContext
 {
     public virtual DbSet<UserEntity> Users { get; set; }
     public virtual DbSet<ProfileEntity> Profiles { get; set; }
-    public virtual DbSet<GenderEntity> Genders { get; set; }
+    public virtual DbSet<GenderIdentityEntity> Genders { get; set; }
     public virtual DbSet<OccupationEntity> Occupations { get; set; }
     public virtual DbSet<InterestEntity> Interests { get; set; }
     public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
@@ -33,20 +33,20 @@ public class PostgresDbContext : DbContext
 
         modelBuilder.Entity<ProfileEntity>(c =>
         {
-            // c.HasOne(p => p.GenderIdentity)
-            //     .WithMany()
-            //     .HasForeignKey(p => p.GenderIdentityId)
-            //     .IsRequired();
-            //
-            // c.HasOne(p => p.PreferredGenderIdentity)
-            //     .WithMany()
-            //     .HasForeignKey(p => p.PreferredGenderIdentityId)
-            //     .IsRequired();
+            c.HasOne(p => p.GenderIdentity)
+                .WithMany()
+                .HasForeignKey(p => p.GenderIdentityId)
+                .IsRequired();
+            
+            c.HasOne(p => p.PreferredGenderIdentity)
+                .WithMany()
+                .HasForeignKey(p => p.PreferredGenderIdentityId)
+                .IsRequired();
 
-            // c.HasOne(p => p.Occupation)
-            //     .WithMany()
-            //     .HasForeignKey(p => p.OccupationId)
-            //     .IsRequired();
+            c.HasOne(p => p.Occupation)
+                .WithMany()
+                .HasForeignKey(p => p.OccupationId)
+                .IsRequired();
 
             // c.HasOne(p => p.InterestCollection)
             //     .WithMany()
