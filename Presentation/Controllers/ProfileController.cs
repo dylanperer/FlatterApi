@@ -45,14 +45,14 @@ public class ProfileController : ControllerBase
         var command = new CreateProfileCommand(
             request.DisplayName,
             request.Description,
-            request.Gender,
+            request.GenderIdentityId,
             request.PrimaryImageUrl,
             request.ImageUrls,
             request.Age,
-            request.PreferredGender,
+            request.PreferredGenderIdentityId,
             request.City,
-            request.Interests,
-            request.Occupation,
+            request.InterestIds,
+            request.OccupationId,
             request.MaximumAcceptedDistance,
             request.PreferredMinimumAge,
             request.PreferredMaximumAge);

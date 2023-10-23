@@ -10,36 +10,36 @@ public struct CreateProfileCommand : IRequest<Result<int>>
 {
     private readonly string _displayName;
     private readonly string _description;
-    private readonly GenderIdentityEntity _genderIdentity;
+    private readonly int _genderIdentityId;
     private readonly string _primaryImageUrl;
     private readonly IEnumerable<string> _imageUrls;
     private readonly byte _age;
-    private readonly GenderIdentityEntity _preferredGenderIdentity;
+    private readonly int _preferredGenderIdentityId;
     private readonly string _city;
-    private readonly IEnumerable<ProfileInterestEntity> _interests;
-    private readonly OccupationEntity? _occupation;
+    private readonly IEnumerable<int> _interestsIds;
+    private readonly int _occupationId;
     private readonly int? _maximumAcceptedDistance;
     private readonly int? _preferredMinimumAge;
     private readonly int? _preferredMaximumAge;
 
-    public CreateProfileCommand(string displayName, string description, GenderIdentityEntity genderIdentity,
+    public CreateProfileCommand(string displayName, string description, int genderIdentityId,
         string primaryImageUrl,
-        IEnumerable<string> imageUrls, byte age, GenderIdentityEntity preferredGenderIdentity, string city, IEnumerable<ProfileInterestEntity> interests,
-        OccupationEntity occupation,
+        IEnumerable<string> imageUrls, byte age, int preferredGenderIdentityId, string city, IEnumerable<int> interestsIds,
+        int occupationId,
         int maximumAcceptedDistance,
         int preferredMinimumAge, int preferredMaximumAge)
     {
         _displayName = displayName;
         _description = description;
-        _genderIdentity = genderIdentity;
+        _genderIdentityId = genderIdentityId;
         _primaryImageUrl = primaryImageUrl;
         _imageUrls = imageUrls;
         _age = age;
         _city = city;
-        _interests = interests;
-        _occupation = occupation;
+        _interestsIds = interestsIds;
+        _occupationId = occupationId;
         _maximumAcceptedDistance = maximumAcceptedDistance;
-        _preferredGenderIdentity = preferredGenderIdentity;
+        _preferredGenderIdentityId = preferredGenderIdentityId;
         _preferredMinimumAge = preferredMinimumAge;
         _preferredMaximumAge = preferredMaximumAge;
     }
@@ -58,29 +58,32 @@ public struct CreateProfileCommand : IRequest<Result<int>>
         public async Task<Result<int>> Handle(CreateProfileCommand request,
             CancellationToken cancellationToken)
         {
-            var x = request._interests.Map(c => new ProfileInterestEntity
-            {
-                InterestId = c.InterestId,
-            });
-            
             _postgresDbContext.Profiles.Add(new ProfileEntity
             {
                 ProfileId = _userProvider.UserId,
                 DisplayName = request._displayName,
-                GenderIdentityId = request._genderIdentity.GenderIdentityId,
+                GenderIdentityId = request._genderIdentityId,
                 Description = request._description,
                 PrimaryImageUrl = request._primaryImageUrl,
                 ImageUrls = request._imageUrls,
                 Age = request._age,
                 City = request._city,
-                PreferredGenderIdentityId = request._preferredGenderIdentity.GenderIdentityId,
+                PreferredGenderIdentityId = request._preferredGenderIdentityId,
                 PreferredMinimumAge = request._preferredMinimumAge ?? 18,
                 PreferredMaximumAge = request._preferredMaximumAge ?? 99,
                 MaximumAcceptedDistance = request._maximumAcceptedDistance ?? 99,
-                OccupationId = request._occupation?.OccupationId,
-                ProfileInterest = x.ToList(),
+                OccupationId = request._occupationId,
             });
-
+            
+            foreach (var interestId in request._interestsIds)
+            {
+                _postgresDbContext.ProfileInterests.Add(new ProfileInterestEntity
+                {
+                    ProfileId = _userProvider.UserId,
+                    InterestId = interestId
+                });
+            }
+            
             try
             {
                 return await _postgresDbContext.SaveChangesAsync(cancellationToken);
